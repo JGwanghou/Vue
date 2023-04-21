@@ -11,6 +11,7 @@ import { ref } from "vue";
 
 export default {
   name: "Header",
+
   setup(props, context) {
     const newTodo = ref("");
 

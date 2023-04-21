@@ -1,20 +1,26 @@
 <script>
 import Item from "./Item.vue";
-
+import { useStore } from "vuex";
+import axios from "axios";
 export default {
   name: "Main",
   components: {
     Item,
   },
   setup() {
-    return {};
+    const store = useStore();
+    const todos = store.getters.todos;
+
+    return { store, todos };
   },
 };
 </script>
 
 <template>
   <main>
-    <ul></ul>
+    <ul>
+      <item />
+    </ul>
   </main>
 </template>
 

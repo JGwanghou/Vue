@@ -1,8 +1,15 @@
+<template>
+  <Header v-on:addTodo="addTodoHandler"></Header>
+  <Main></Main>
+  <Footer></Footer>
+</template>
 <script>
 import Header from "./components/Header.vue";
-import Main from "./components/Main.vue";
 import Footer from "./components/Footer.vue";
+import Main from "./components/Main.vue";
 import { useStore } from "vuex";
+import { onBeforeMount } from "vue";
+
 export default {
   name: "App",
   components: {
@@ -14,18 +21,18 @@ export default {
     const store = useStore();
 
     const addTodoHandler = (todo) => {
-      // alert(todo);
+      //alert(todo);
       store.dispatch("addTodo", todo);
     };
+
+    onBeforeMount(() => {
+      console.log("onBeforeMount...");
+      store.dispatch("getTodos");
+    });
+
     return { addTodoHandler };
   },
 };
 </script>
-
-<template>
-  <Header v-on:addTodo="addTodoHandler" />
-  <Main />
-  <Footer />
-</template>
 
 <style scoped></style>

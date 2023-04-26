@@ -22,7 +22,30 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="7">
-                  <v-btn color="warning" class="ml-2">중복확인</v-btn>
+                  <v-btn
+                    :loading="loading"
+                    color="warning"
+                    class="ml-2"
+                    @click="btnCheckUid"
+                    >중복확인</v-btn
+                  >
+                  <v-chip
+                    v-if="rsChip1"
+                    class="ma-2"
+                    color="red"
+                    text-color="white"
+                  >
+                    이미 사용중인 아이디입니다.
+                  </v-chip>
+
+                  <v-chip
+                    v-if="rsChip2"
+                    class="ma-2"
+                    color="green"
+                    text-color="white"
+                  >
+                    사용 가능한 아이디 입니다.
+                  </v-chip>
                 </v-col>
               </v-row>
               <v-row no-gutters="true" class="mb-2">
@@ -161,6 +184,8 @@
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import { ref } from "vue";
+import { load } from "webfontloader";
 
 const router = useRouter();
 const user = reactive({
@@ -189,8 +214,40 @@ const btnRegister = () => {
     });
 };
 
+const rsChip1 = ref(false);
+const rsChip2 = ref(false);
+const loading = ref(false);
+
 const btnCancel = () => {
   router.push("/user/login");
+};
+
+const btnCheckUid = () => {
+  loading.value = true;
+
+  axios
+    .get("http://localhost:8080/Voard/user/checkUid", {
+      params: { uid: user.uid },
+    })
+    .then((response) => {
+      console.log(response);
+
+      setTimeout(() => {
+        loading.value = false;
+
+        const count = response.data;
+        if (count > 0) {
+          rsChip1.value = true;
+          rsChip2.value = false;
+        } else {
+          rsChip1.value = false;
+          rsChip2.value = true;
+        }
+      }, 1000);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 </script>
 <style scoped></style>

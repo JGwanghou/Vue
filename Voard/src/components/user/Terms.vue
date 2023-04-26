@@ -38,6 +38,14 @@
             <v-btn color="primary" @click="btnNext">다음</v-btn>
           </v-sheet>
         </v-sheet>
+        <v-dialog v-model="dialog" width="auto">
+          <v-card>
+            <v-card-text> 약관 동의를 확인해주세요. </v-card-text>
+            <v-card-actions>
+              <v-btn color="primary" block @click="dialog = false">확인</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-container>
     </v-main>
   </v-app>
@@ -52,6 +60,7 @@ const router = useRouter();
 
 const isCheck1 = ref(false);
 const isCheck2 = ref(false);
+const dialog = ref(false);
 
 const btnCancel = () => {
   router.push("/user/login");
@@ -60,7 +69,7 @@ const btnNext = () => {
   if (isCheck1.value && isCheck2.value) {
     router.push("/user/register");
   } else {
-    alert("동의 체크를 하십시오.");
+    dialog.value = true;
   }
 };
 

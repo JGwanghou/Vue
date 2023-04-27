@@ -203,7 +203,7 @@ const user = reactive({
 const btnRegister = () => {
   console.log(user);
   axios
-    .post("http://localhost:8080/Voard/user/register", user)
+    .post("/user/register", user)
     .then((response) => {
       console.log(response);
       alert("회원가입 완료!");

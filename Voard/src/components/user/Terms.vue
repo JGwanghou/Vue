@@ -79,7 +79,7 @@ const value = reactive({
 });
 onBeforeMount(() => {
   axios
-    .get("http://localhost:8080/Voard/user/terms")
+    .get("/user/terms")
     .then((response) => {
       console.log(response);
       value.terms = response.data.terms;
